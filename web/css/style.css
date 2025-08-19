@@ -1,0 +1,186 @@
+/* ================================
+   Fonts + Base Reset
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+        margin: 0;
+    
+    background: linear-gradient(to bottom right, #e6d6f2, #f3e8ff);
+    color: #333;
+}
+
+/* ================================
+   Header Styles
+================================ */
+header {
+    background-color: #f7c6d9;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-bottom: 15px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 400;
+    padding: 6px 12px;
+    transition: background-color 0.3s ease, color 0.3s;
+    border-radius: 6px;
+}
+
+.navbar ul li a:hover {
+    background-color: #f9b3c8;
+    color: #fff;
+}
+
+/* ================================
+   Buttons
+================================ */
+.btn {
+    padding: 0.6rem 1.4rem;
+    background-color: #ff9ab5;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #f97e9e;
+}
+
+/* ================================
+   Footer
+================================ */
+footer {
+    background-color: #f7c6d9;
+    padding: 1rem 2rem;
+    text-align: center;
+    color: white;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+}
+
+/* ================================
+   Cards or Content Boxes
+================================ */
+.card {
+    background: #fff;
+    border: 1px solid #f2d4e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* ================================
+   Utilities
+================================ */
+.text-center {
+    text-align: center;
+}
+
+.mt-2 { margin-top: 2rem; }
+.mb-2 { margin-bottom: 2rem; }
+.p-2  { padding: 2rem; }
+/* ================================
+   m
+================================ */
+
+/* Card sản phẩm */
+.card.product-item {
+    background-color: #fff0f6; /* Hồng pastel dịu */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(180, 138, 197, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.card.product-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Header ảnh */
+.card-header.product-img img {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    object-fit: cover;
+}
+
+/* Rating box */
+.ratingbox {
+    margin-top: 5px;
+}
+
+.ratingbox .fa-star {
+    color: #fcd5ce; /* pastel hồng cam */
+}
+
+.ratingbox .fa-star.checked {
+    color: #f08080; /* hồng đào */
+}
+
+/* Nút và liên kết */
+.card-footer .btn {
+    color: #7b2cbf;
+    font-weight: 500;
+}
+
+.card-footer .btn:hover {
+    color: #9d4edd;
+}
+
+/* Thanh tiến trình */
+.progress {
+    height: 8px;
+    background-color: #f8d7fa;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    background-color: #e09fcd;
+    border-radius: 4px;
+}
+
+.progress-label {
+    font-size: 12px;
+    color: #a05db6;
+    margin-left: 5px;
+}
