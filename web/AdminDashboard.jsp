@@ -22,6 +22,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin Dashboard</title>
         <link href="css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
 
             table {
@@ -62,12 +63,20 @@
                 font-weight: bold;
                 margin-top: 10px;
             }
-            .delete-btn{
-                background-color: red;
-                border-radius: 90px;
-                color: yellow;
-                font-weight: 100;
+
+
+            .delete-btn:hover {
+                color: white;
+                background-color: #d32f2f; /* Darker red on hover */
             }
+            .delete-btn  { 
+                
+                color: red; /* White text for better contrast */
+                font-size: 14px; /* Adjust font size for clarity */
+                font-weight: bold; /* Bold the 'x' to make it stand out */
+                
+                border-radius: 50%; /* Makes the button perfectly round */
+                font-size: 1em; /* Adjust the icon size relative to the button */ }
         </style>
     </head>
     <body>
@@ -159,7 +168,7 @@
                         <form action="ManageBorrowRequestController" method="post" style="display:inline;">
                             <input type="hidden" name="id" value="<%= req.getId()%>">
                             <input type="hidden" name="action" value="delete">
-                            <button type="submit" class="delete-btn">x</button>
+                            <button type="submit" class="delete-btn"><i class="fas fa-times"></i></button>
                         </form>
                         <% } else { %>
                         <%= req.getStatus()%>

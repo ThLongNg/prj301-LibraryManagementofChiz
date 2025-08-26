@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>My Library</title>
+    <title>ChizNg's Library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -32,7 +32,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand font-weight-bold" href="index.jsp">
-            <span class="text-primary">My</span> Library
+            <span style="color:#FF9CF5">ChizNg の</span> Library
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -57,18 +57,6 @@
                             <a class="nav-link" href="signup.jsp">Sign Up</a>
                         </li>
                     </c:when>
-                    <c:otherwise>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Hello, ${sessionScope.USER.fullName}
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Profile</a>
-                                <a class="dropdown-item" href="MainController?action=Logout">Logout</a>
-                            </div>
-                        </li>
-                    </c:otherwise>
                 </c:choose>
             </ul>
 

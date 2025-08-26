@@ -254,3 +254,259 @@ USE [master]
 GO
 ALTER DATABASE [library_system] SET  READ_WRITE 
 GO
+USE [master]
+GO
+/****** Object:  Database [library_system]    Script Date: 8/19/2025 12:26:11 PM ******/
+CREATE DATABASE [library_system]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'library_system', FILENAME = N'C:\Program Files\MSSQL16.MSSQLSERVER\MSSQL\DATA\library_system.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'library_system_log', FILENAME = N'C:\Program Files\MSSQL16.MSSQLSERVER\MSSQL\DATA\library_system_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [library_system] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [library_system].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [library_system] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [library_system] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [library_system] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [library_system] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [library_system] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [library_system] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [library_system] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [library_system] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [library_system] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [library_system] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [library_system] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [library_system] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [library_system] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [library_system] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [library_system] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [library_system] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [library_system] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [library_system] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [library_system] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [library_system] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [library_system] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [library_system] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [library_system] SET RECOVERY FULL 
+GO
+ALTER DATABASE [library_system] SET  MULTI_USER 
+GO
+ALTER DATABASE [library_system] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [library_system] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [library_system] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [library_system] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [library_system] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [library_system] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'library_system', N'ON'
+GO
+ALTER DATABASE [library_system] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [library_system] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [library_system]
+GO
+/****** Object:  Table [dbo].[book_requests]    Script Date: 8/19/2025 12:26:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[book_requests](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[user_id] [int] NOT NULL,
+	[book_id] [int] NOT NULL,
+	[request_date] [date] NULL,
+	[status] [varchar](20) NULL,
+	[borrow_date] [date] NULL,
+	[return_date] [date] NULL,
+	[fine_amount] [decimal](10, 2) NULL,
+	[actual_return_date] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[books]    Script Date: 8/19/2025 12:26:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[books](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[title] [varchar](200) NOT NULL,
+	[author] [varchar](100) NOT NULL,
+	[isbn] [varchar](20) NOT NULL,
+	[category] [varchar](50) NULL,
+	[published_year] [int] NULL,
+	[total_copies] [int] NULL,
+	[available_copies] [int] NULL,
+	[status] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[isbn] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[borrow_records]    Script Date: 8/19/2025 12:26:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[borrow_records](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[user_id] [int] NOT NULL,
+	[book_id] [int] NOT NULL,
+	[borrow_date] [date] NULL,
+	[due_date] [date] NOT NULL,
+	[return_date] [date] NULL,
+	[status] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[fines]    Script Date: 8/19/2025 12:26:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[fines](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[borrow_id] [int] NOT NULL,
+	[fine_amount] [decimal](6, 2) NULL,
+	[paid_status] [varchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[system_config]    Script Date: 8/19/2025 12:26:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[system_config](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[config_key] [varchar](50) NOT NULL,
+	[config_value] [varchar](100) NOT NULL,
+	[description] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[config_key] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[users]    Script Date: 8/19/2025 12:26:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[users](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[username] [varchar](100) NOT NULL,
+	[email] [varchar](100) NOT NULL,
+	[password] [varchar](255) NOT NULL,
+	[role] [varchar](20) NULL,
+	[status] [varchar](20) NULL,
+	[avatar] [varchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[book_requests] ADD  DEFAULT ('pending') FOR [status]
+GO
+ALTER TABLE [dbo].[book_requests] ADD  DEFAULT ((0)) FOR [fine_amount]
+GO
+ALTER TABLE [dbo].[books] ADD  DEFAULT ((1)) FOR [total_copies]
+GO
+ALTER TABLE [dbo].[books] ADD  DEFAULT ((1)) FOR [available_copies]
+GO
+ALTER TABLE [dbo].[books] ADD  DEFAULT ('active') FOR [status]
+GO
+ALTER TABLE [dbo].[borrow_records] ADD  DEFAULT (NULL) FOR [return_date]
+GO
+ALTER TABLE [dbo].[borrow_records] ADD  DEFAULT ('borrowed') FOR [status]
+GO
+ALTER TABLE [dbo].[fines] ADD  DEFAULT ((0.00)) FOR [fine_amount]
+GO
+ALTER TABLE [dbo].[fines] ADD  DEFAULT ('unpaid') FOR [paid_status]
+GO
+ALTER TABLE [dbo].[users] ADD  DEFAULT ('active') FOR [status]
+GO
+ALTER TABLE [dbo].[users] ADD  DEFAULT ('default.png') FOR [avatar]
+GO
+ALTER TABLE [dbo].[book_requests]  WITH CHECK ADD FOREIGN KEY([book_id])
+REFERENCES [dbo].[books] ([id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[book_requests]  WITH CHECK ADD FOREIGN KEY([user_id])
+REFERENCES [dbo].[users] ([id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[borrow_records]  WITH CHECK ADD FOREIGN KEY([book_id])
+REFERENCES [dbo].[books] ([id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[borrow_records]  WITH CHECK ADD FOREIGN KEY([user_id])
+REFERENCES [dbo].[users] ([id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[fines]  WITH CHECK ADD FOREIGN KEY([borrow_id])
+REFERENCES [dbo].[borrow_records] ([id])
+ON DELETE CASCADE
+GO
+USE [master]
+GO
+ALTER DATABASE [library_system] SET  READ_WRITE 
+GO

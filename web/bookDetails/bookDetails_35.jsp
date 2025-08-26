@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Chi tiết sách: Sherlock Holmes - Tập 2</title>
+    <title>Chi tiết sách: Sherlock Holmes - Tập 3</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="<%= request.getContextPath() %>/css/style.css" rel="stylesheet">
@@ -53,10 +53,10 @@
         <div class="book-goodreads-container">
             <div class="row">
                 <div class="col-md-4 text-center">
-                    <img src="<%= request.getContextPath() %>/uploads/sherlock2.jpg" class="book-cover-img" alt="Sherlock Holmes Tập 2">
+                    <img src="<%= request.getContextPath() %>/uploads/sherlock3.webp" class="book-cover-img" alt="Sherlock Holmes Tập 3">
                 </div>
                 <div class="col-md-8">
-                    <h1 class="book-title">Sherlock Holmes - Tuyển tập tập 2</h1>
+                    <h1 class="book-title">Sherlock Holmes - Tuyển tập tập 3</h1>
                     <h3 class="book-author">của Arthur Conan Doyle</h3>
                     <div class="rating-summary">
                         <span class="fa fa-star checked"></span>
@@ -71,7 +71,7 @@
                     <div class="action-buttons">
                         <form action="<%= request.getContextPath() %>/MainController" method="post" style="display:inline-block; margin-right: 15px;">
                             <input type="hidden" name="action" value="addToCart">
-                            <input type="hidden" name="bookId" value="2">
+                            <input type="hidden" name="bookId" value="35">
                             <button type="submit" class="btn btn-pink btn-lg">
                                 <i class="fas fa-shopping-cart"></i> Mượn sách
                             </button>
@@ -84,23 +84,23 @@
                 <div class="col-12">
                     <h2 class="section-title">Mô tả</h2>
                     <p class="book-description">
-                        Tập 2 của bộ truyện Sherlock Holmes bao gồm các tác phẩm kinh điển như **The Hound of the Baskervilles** và **The Valley of Fear**. "The Hound of the Baskervilles" là một tiểu thuyết trinh thám kinh dị, kể về một con quái vật ma quái đe dọa gia tộc Baskerville. Trong khi đó, "The Valley of Fear" đối đầu Holmes với kẻ thù không đội trời chung, giáo sư Moriarty.
+                        Đây là tập cuối cùng của series Sherlock Holmes, bao gồm tiểu thuyết **The Valley of Fear** (đã có trong tập 2 của một số phiên bản) cùng với các truyện ngắn từ **His Last Bow** và **The Case-Book of Sherlock Holmes**. Tập này khám phá các vụ án phức tạp và kỳ lạ nhất của Holmes, đồng thời hé lộ những bí ẩn cuối cùng trong sự nghiệp của thám tử lừng danh.
                     </p>
                     <h2 class="section-title">Thông tin chi tiết</h2>
                     <ul class="book-details-list">
-                        <li><strong>ID sách:</strong> 34</li>
+                        <li><strong>ID sách:</strong> 35</li>
                         <li><strong>Thể loại:</strong> Trinh thám, Tiểu thuyết, Truyện ngắn</li>
-                        <li><strong>Số trang:</strong> Khoảng 768 (tùy phiên bản)</li>
+                        <li><strong>Số trang:</strong> Khoảng 1200 (tùy phiên bản)</li>
                         <li><strong>Nhà xuất bản:</strong> Nhiều nhà xuất bản</li>
                         <li><strong>Ngày xuất bản:</strong> Tùy thuộc vào lần xuất bản</li>
                         <li><strong>ISBN:</strong> Tùy phiên bản</li>
                         <li>
                             <strong>Tình trạng có sẵn:</strong> 
-                            <span class="text-info">50%</span> (50/100 bản)
+                            <span class="text-info">60%</span> (60/100 bản)
                         </li>
                         <li>
                             <div class="progress" style="height: 20px;">
-                                <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                     </ul>
