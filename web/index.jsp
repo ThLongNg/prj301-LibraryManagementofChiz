@@ -28,11 +28,11 @@
                 right: 5px;
                 z-index: 1000;
                 gap: 15px;
-                background-color: #f7f7ff; 
-                padding: 5px 3px 5px 25px; 
+                background-color: #f7f7ff;
+                padding: 5px 3px 5px 25px;
                 border-radius: 45px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-                border: 1px solid #e0b7ff; 
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e0b7ff;
             }
 
             .welcome-text {
@@ -56,17 +56,17 @@
                 font-family: 'Zen Maru Gothic', sans-serif;
                 margin: 0;
                 white-space: nowrap;
-                font-size: 0.9rem; 
+                font-size: 0.9rem;
                 color: #777;
             }
 
             .avatar-img {
-                
+
                 width: 60px;
                 height: 60px;
                 border-radius: 50%;
                 cursor: pointer;
-                border: 3px solid #ddd; 
+                border: 3px solid #ddd;
                 object-fit: cover;
                 box-shadow: none;
             }
@@ -151,97 +151,215 @@
                 transform: translateY(-1px);
                 box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
             }
+            .product-grid {
+                display: grid;
 
-        </style>
-    </head>
-    <body>
-
-        <jsp:include page="header.jsp"/> 
-        <div class="row justify-content-center mb-4">
-            <div class="col-md-6 search-form-container"> <form class="form-inline d-flex justify-content-center" action="MainController" method="get">
-                    <input class="form-control mr-sm-2 w-75" type="search" name="keyword" placeholder="Search books..." 
-                           value="<%= request.getAttribute("keyword") != null ? request.getAttribute("keyword") : "" %>">
-                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="action" value="Search">Search</button>
-                </form>
-            </div>
-        </div>
-
-        <%
-            User user = (User) session.getAttribute("user");
-            String avatarPath;
-            if (user != null && user.getAvatar() != null) {
-                String avatarUrl = user.getAvatar();
-        
-                if (avatarUrl.startsWith("http://") || avatarUrl.startsWith("https://")) {
-                    avatarPath = avatarUrl;
-                } else {
-            
-                    avatarPath = "/my_webapp_uploads/" + avatarUrl;
-                }
-            } else {
-                avatarPath = "uploads/defaultava.jpg";
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 25px;
+                margin-top: 30px;
+                padding: 0 15px;
             }
-        %>
+            .container.product-display {
+                max-width: 1200px;
+                margin: 30px auto;
+                padding: 0 15px;
+            }
+            .product-card {
 
-        <div class="avatar-menu">
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                
+                background-color: #FF9CF5;
+                border: 1px solid #e0b7ff;
+                border-radius: 12px;
+                padding: 15px 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                justify-content: space-between;
+            }
+
+            /* Các thành phần bên trong */
+            .product-card img {
+                width: 100%;
+                max-width: 120px;
+                height: auto;
+                border-radius: 8px;
+                margin-bottom: 15px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+
+            .product-title {
+
+                min-height: 2.6rem;
+                font-family: 'Zen Maru Gothic', sans-serif;
+                font-weight: bold;
+                font-size: 1.1rem;
+                color: #5F4C5B;
+                margin: 0;
+                line-height: 1.3;
+            }
+
+            .product-author {
+
+                margin-top: auto;
+                font-family: 'Zen Maru Gothic', sans-serif;
+                font-size: 0.8rem;
+                color: #6890FE;
+                margin: 5px 0 0;
+            </style>
+        </head>
+        <body>
+
+            <jsp:include page="header.jsp"/> 
+            <div class="row justify-content-center mb-4">
+
+                <div class="col-md-6 search-form-container"> 
+                    <form id="search-form" class="form-inline d-flex justify-content-center" action="MainController" method="get">
+                        <input id="search-input" class="form-control mr-sm-2 w-75" type="search" name="keyword" placeholder="Search books..." 
+                               value="<%= request.getAttribute("keyword") != null ? request.getAttribute("keyword") : "" %>">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" name="action" value="Search">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="container product-display">
+                <div id="searchResults"></div>
+            </div>
             <%
-            if (user != null && user.getName() != null) {
-                out.print("<div class='welcome-text'>");
-                out.print("<h4 class='user-name'>こんにちは: " + user.getName() +"</h4>");
-                out.print("<h5 class='okaeri'>お帰りなさい!!お疲れ様でした。</h5>");
-                out.print("</div>");
-            }else{
-                out.print("<h4 class='user-name'>Login Here!"+ "👉"+ "</h4>");
+                User user = (User) session.getAttribute("user");
+                String avatarPath;
+                if (user != null && user.getAvatar() != null) {
+                    String avatarUrl = user.getAvatar();
+        
+                    if (avatarUrl.startsWith("http://") || avatarUrl.startsWith("https://")) {
+                        avatarPath = avatarUrl;
+                    } else {
+            
+                        avatarPath = "/my_webapp_uploads/" + avatarUrl;
+                    }
+                } else {
+                    avatarPath = "uploads/defaultava.jpg";
                 }
             %>
-            <img src="<%= avatarPath %>" alt="Avatar" class="avatar-img" id="avatarBtn">
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="Login.jsp"> ⛩  Sign In️</a>
+
+            <div class="avatar-menu">
                 <%
-                    if (user != null && "admin".equalsIgnoreCase(user.getRole())) {
-                %>
-                <a href="AdminDashboard.jsp">👤 Admin Dashboard</a>
-                <%
-                    } else {
-                %>
-                <a href="UserDashboard.jsp">👤 My Account</a>
-                <%
+                if (user != null && user.getName() != null) {
+                    out.print("<div class='welcome-text'>");
+                    out.print("<h4 class='user-name'>こんにちは: " + user.getName() +"</h4>");
+                    out.print("<h5 class='okaeri'>お帰りなさい!!お疲れ様でした。</h5>");
+                    out.print("</div>");
+                }else{
+                    out.print("<h4 class='user-name'>Login Here!"+ "👉"+ "</h4>");
                     }
                 %>
+                <img src="<%= avatarPath %>" alt="Avatar" class="avatar-img" id="avatarBtn">
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="Login.jsp"> ⛩  Sign In️</a>
+                    <%
+                        if (user != null && "admin".equalsIgnoreCase(user.getRole())) {
+                    %>
+                    <a href="AdminDashboard.jsp">👤 Admin Dashboard</a>
+                    <%
+                        } else {
+                    %>
+                    <a href="UserDashboard.jsp">👤 My Account</a>
+                    <%
+                        }
+                    %>
 
-                <a href="LogoutController" id="logoutBtn">🔓 Logout</a>
+                    <a href="LogoutController" id="logoutBtn">🔓 Logout</a>
+                </div>
             </div>
-        </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const avatarBtn = document.getElementById("avatarBtn");
-                const dropdownMenu = document.getElementById("dropdownMenu");
-                const logoutBtn = document.getElementById("logoutBtn");
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const avatarBtn = document.getElementById("avatarBtn");
+                    const dropdownMenu = document.getElementById("dropdownMenu");
+                    const logoutBtn = document.getElementById("logoutBtn");
 
-                // Toggle menu
-                avatarBtn.addEventListener("click", function () {
-                    dropdownMenu.style.display = (dropdownMenu.style.display === "block") ? "none" : "block";
+
+                    // Toggle menu
+                    avatarBtn.addEventListener("click", function () {
+                        dropdownMenu.style.display = (dropdownMenu.style.display === "block") ? "none" : "block";
+                    });
+
+                    // Click outside to close
+                    document.addEventListener("click", function (e) {
+                        if (!e.target.closest(".avatar-menu")) {
+                            dropdownMenu.style.display = "none";
+                        }
+                    });
+
+                    // Xác nhận logout
+                    logoutBtn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất?");
+                        if (confirmLogout) {
+                            window.location.href = "LogoutController";
+                        }
+                    });
+
+                    // ======= AJAX Search Functionality =========
+                    const searchInput = document.getElementById("search-input");
+                    const searchResultsDiv = document.getElementById("searchResults");
+                    const searchButton = document.querySelector('button[name="action"][value="Search"]');
+                    const searchForm = document.getElementById("search-form");
+                    searchButton.style.display = "none";
+                    searchInput.addEventListener("keydown", function (e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                        }
+                    });
+                    let timer;
+
+                    searchInput.addEventListener("keyup", function () {
+                        clearTimeout(timer); 
+                        const keyword = this.value;
+
+                        timer = setTimeout(() => {
+                            if (keyword.length > 0) {
+                                fetch("SearchBookController?keyword=" + encodeURIComponent(keyword))
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('Network response was not ok');
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(books => {
+                                            let html = "";
+                                            if (books.length > 0) {
+                                                html += "<h3 class='text-center'>Books Available</h3>";
+                                                html += '<div class="product-grid">'; 
+
+                                                books.forEach(book => {
+                                                    const bookUrl = 'bookDetails/bookDetails_' + book.id + '.jsp';
+                                                    html += '<a href="' + bookUrl + '">';
+                                                    html += '<div class="product-card">';
+                                                    html += '   <p class="product-title">' + book.title + '</p>';
+                                                    html += '   <p class="product-author">' + book.author + '</p>';
+                                                    html += '</div>';
+                                                });
+
+                                                html += '</div>';
+                                            } else {
+                                                html = "<p class='text-center'>Không tìm thấy sách nào với từ khóa: '" + keyword + "'</p>";
+                                            }
+                                            searchResultsDiv.innerHTML = html;
+                                        })
+                                        .catch(error => {
+                                            console.error("Lỗi khi tải dữ liệu:", error);
+                                            searchResultsDiv.innerHTML = "<p>Đã xảy ra lỗi khi tìm kiếm.</p>";
+                                        });
+                            } else {
+                                // Xóa kết quả nếu ô tìm kiếm trống
+                                searchResultsDiv.innerHTML = "";
+                            }
+                        }, 300); // Đợi 300ms sau khi người dùng ngừng gõ
+                    });
                 });
-
-                // Click outside to close
-                document.addEventListener("click", function (e) {
-                    if (!e.target.closest(".avatar-menu")) {
-                        dropdownMenu.style.display = "none";
-                    }
-                });
-
-                // Xác nhận logout
-                logoutBtn.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất?");
-                    if (confirmLogout) {
-                        window.location.href = "LogoutController";
-                    }
-                });
-            });
-        </script>
-
-        <jsp:include page="productIndex.jsp"/> 
-        <jsp:include page="footerIndex.jsp"/> 
-    </body>
-</html>
+            </script>
+            <jsp:include page="productIndex.jsp"/> 
+            <jsp:include page="footerIndex.jsp"/> 
+        </body>
+    </html>
