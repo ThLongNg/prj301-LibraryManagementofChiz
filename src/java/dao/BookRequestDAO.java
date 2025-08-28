@@ -322,5 +322,41 @@ public class BookRequestDAO {
         }
         return false;
     }
+          public int createBookRequestWithPaymentInfo(int bookId, int userId) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO book_requests (user_id, book_id, request_date, status, payment_status) VALUES (?, ?, ?, ?, ?)";
+        int id = -1;
+        try (Connection cn = DBUtils.getConnection();
+             PreparedStatement pst = cn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            pst.setInt(1, userId);
+            pst.setInt(2, bookId);
+            pst.setDate(3, new Date(System.currentTimeMillis())); // Ngày hiện tại
+            pst.setString(4, "Pending"); // Trạng thái mặc định
+            pst.setString(5, "Unpaid"); // Trạng thái thanh toán ban đầu
+            
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = pst.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        id = generatedKeys.getInt(1);
+                    }
+                }
+            }
+        }
+        return id;
+    }
+
+    // Thêm phương thức mới để cập nhật trạng thái thanh toán và lưu Transaction ID
+    public boolean updatePaymentStatus(int requestId, String newPaymentStatus, String transactionId) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE book_requests SET payment_status = ?, transaction_id = ? WHERE id = ?";
+        try (Connection cn = DBUtils.getConnection();
+             PreparedStatement pst = cn.prepareStatement(sql)) {
+            
+            pst.setString(1, newPaymentStatus);
+            pst.setString(2, transactionId);
+            pst.setInt(3, requestId);
+            
+            return pst.executeUpdate() > 0;
+        }
+    }
 
     }
