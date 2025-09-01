@@ -71,7 +71,7 @@ public class ManageBorrowRequestController extends HttpServlet {
                     BookRequest requestToUpdate = bookRequestDAO.getBookRequestById(id);
 
                     if (requestToUpdate == null) {
-                         message = "Borrow request not found.";
+                        message = "Borrow request not found.";
                     } else {
                         String newStatus = "Rejected";
                         boolean success = bookRequestDAO.updateBookRequestStatus(id, newStatus, null, null);
@@ -95,18 +95,39 @@ public class ManageBorrowRequestController extends HttpServlet {
                         e.printStackTrace();
                     }
                 } else if ("return_book".equalsIgnoreCase(action)) { // Xử lý hành động trả sách
-        try {
-            boolean success = bookRequestDAO.returnBook(id);
-            if (success) {
-                message = "Sách của yêu cầu " + id + " đã được ghi nhận trả thành công.";
-            } else {
-                message = "Lỗi khi ghi nhận trả sách cho yêu cầu " + id + ".";
-            }
-        } catch (Exception e) {
-            message = "Đã xảy ra lỗi khi ghi nhận trả sách.";
-            e.printStackTrace();
-        }
-    } else {
+                    try {
+                        boolean success = bookRequestDAO.returnBook(id);
+                        if (success) {
+                            message = "Sách của yêu cầu " + id + " đã được ghi nhận trả thành công.";
+                        } else {
+                            message = "Lỗi khi ghi nhận trả sách cho yêu cầu " + id + ".";
+                        }
+                    } catch (Exception e) {
+                        message = "Đã xảy ra lỗi khi ghi nhận trả sách.";
+                        e.printStackTrace();
+                    }
+                } else if ("refund".equalsIgnoreCase(action)) { // Thêm case mới cho hành động 'refund'
+                    url = "AdminDashboard.jsp";
+                    try {
+                        // Lấy request từ DB để lấy transactionId
+                        BookRequest requestToRefund = bookRequestDAO.getBookRequestById(id);
+                        if (requestToRefund != null && "Paid".equalsIgnoreCase(requestToRefund.getPaymentStatus())) {
+                            // Gọi phương thức mới để xử lý hoàn tiền trên Stripe
+                             double bookPrice = 100000;
+                            boolean refundSuccess = bookRequestDAO.refundBookRequestWithStripe(id, requestToRefund.getTransactionId(), bookPrice);
+                            if (refundSuccess) {
+                                message = "Đã hoàn tiền thành công cho yêu cầu " + id + ". Vui lòng kiểm tra lại Stripe Dashboard.";
+                            } else {
+                                message = "Lỗi khi hoàn tiền. Vui lòng kiểm tra Stripe Dashboard.";
+                            }
+                        } else {
+                            message = "Không thể hoàn tiền: Yêu cầu không tồn tại hoặc chưa được thanh toán.";
+                        }
+                    } catch (SQLException | ClassNotFoundException e) {
+                        message = "Đã xảy ra lỗi khi hoàn tiền: " + e.getMessage();
+                        e.printStackTrace();
+                    }
+                } else {
                     message = "Invalid action.";
                 }
             }

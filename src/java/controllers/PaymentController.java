@@ -1,4 +1,4 @@
-package controllers;
+    package controllers;
 
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
@@ -45,7 +45,7 @@ public class PaymentController extends HttpServlet {
             if (us == null || list == null || list.isEmpty()) {
                 message = "Không tìm thấy thông tin giỏ hàng hoặc người dùng. Vui lòng thử lại.";
                 request.setAttribute("ERROR_MESSAGE", message);
-                request.getRequestDispatcher(url).forward(request, response);
+                
                 return;
             }
 

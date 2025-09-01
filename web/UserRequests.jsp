@@ -38,8 +38,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID Yêu Cầu</th>
+                       
                         <th>ID Sách</th>
+                        <<th>Tên Sách</th>
                         <th>Ngày Yêu Cầu</th>
                         <th>Ngày Mượn</th>
                         <th>Ngày Trả</th>
@@ -49,8 +50,9 @@
                 <tbody>
                     <% for (BookRequest req : userRequests) { %>
                     <tr>
-                        <td><%= req.getId() %></td>
+                        
                         <td><%= req.getBookId() %></td>
+                        <td><%= req.getBookTitle() %></td>
                         <td><%= (req.getRequestDate() != null ? sdf.format(req.getRequestDate()) : "N/A") %></td>
                         <td><%= (req.getBorrowDate() != null ? sdf.format(req.getBorrowDate()) : "N/A") %></td>
                         <td><%= (req.getReturnDate() != null ? sdf.format(req.getReturnDate()) : "N/A") %></td>

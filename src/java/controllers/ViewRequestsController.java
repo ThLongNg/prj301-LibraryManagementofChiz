@@ -1,5 +1,4 @@
-package controllers;
-
+// File: ViewRequestsController.java
 
 import dao.BookRequestDAO;
 import dto.BookRequest;
@@ -19,7 +18,10 @@ public class ViewRequestsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "UserRequests.jsp"; 
+        String url = "UserRequests.jsp";
+
+        // Thêm dòng này để kiểm tra xem Servlet có được gọi hay không
+        System.out.println("DEBUG: ViewRequestsController is running.");
 
         try {
             HttpSession session = request.getSession();
@@ -27,16 +29,19 @@ public class ViewRequestsController extends HttpServlet {
 
             // Kiểm tra xem người dùng đã đăng nhập chưa
             if (user == null) {
+                
                 response.sendRedirect("index.jsp");
                 return;
             }
-            System.out.println("Current logged-in user ID: " + user.getId());
+            
+
             BookRequestDAO bookRequestDAO = new BookRequestDAO();
             ArrayList<BookRequest> userRequests = bookRequestDAO.getBookRequestsByUserId(user.getId());
 
             request.setAttribute("userRequests", userRequests);
-            
+
         } catch (Exception e) {
+
             e.printStackTrace();
         } finally {
             request.getRequestDispatcher(url).forward(request, response);

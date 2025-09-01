@@ -42,13 +42,10 @@
     %>
 
     <div class="text-center mb-5">
-        <h2 class="section-title px-5"><span class="px-2">Romcom Novel</span></h2>
+        <h2 class="section-title px-5"><span class="px-5">Romcom Novel</span></h2>
     </div>
 
     <div class="row gx-4 gy-4 px-4 justify-content-center">
-        <%-- Trong thực tế, bạn sẽ lấy dữ liệu sách từ Database và dùng vòng lặp --%>
-        <%-- Hiện tại để đơn giản, tôi giữ nguyên cấu trúc cứng mà bạn đã cung cấp --%>
-
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card product-item border-0 h-100">
                 <div class="card-header p-0 bg-transparent border overflow-hidden">
@@ -310,6 +307,59 @@
         </div>
     </div>
 </div>
+                        <button id="theme-toggle" type="button" style="
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    z-index: 50;
+    transition: background-color 0.3s, color 0.3s;
+    background-color: #f7f7f7;
+    color: #333;
+">
+    <i id="theme-icon" class="fas fa-moon text-lg"></i>
+</button>
+
+<script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const bodyElement = document.body;
+    const currentTheme = localStorage.getItem('theme');
+
+    // Áp dụng chủ đề đã lưu khi trang tải
+    if (currentTheme === 'dark') {
+        bodyElement.classList.add('dark-mode');
+        themeToggleBtn.style.backgroundColor = '#2d3748';
+        themeToggleBtn.style.color = '#fff';
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+
+    // Xử lý sự kiện nhấp vào nút
+    themeToggleBtn.addEventListener('click', () => {
+        // Chuyển đổi lớp 'dark-mode'
+        bodyElement.classList.toggle('dark-mode');
+
+        // Cập nhật biểu tượng và màu nút
+        if (bodyElement.classList.contains('dark-mode')) {
+            themeToggleBtn.style.backgroundColor = '#2d3748';
+            themeToggleBtn.style.color = '#fff';
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeToggleBtn.style.backgroundColor = '#f7f7f7';
+            themeToggleBtn.style.color = '#333';
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

@@ -3,13 +3,22 @@
     Created on : May 31, 2025, 3:47:44 PM
     Author     : user
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <html lang="en">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  
    <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
@@ -19,96 +28,6 @@
   box-sizing: border-box;
 }
 
-body {
-  background: linear-gradient(to right, #fce4ec, #f8bbd0);
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.login-container {
-  background-color: #fffafa;
-  padding: 2rem 3rem;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  border: 2px dashed #f7c6d9;
-}
-
-.login-container h2 {
-  margin-bottom: 1.5rem;
-  color: #e91e63;
-}
-
-.form-group {
-  text-align: left;
-  margin-bottom: 1.2rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-weight: 500;
-  color: #e91e63;
-}
-
-.form-group input[type="text"],
-.form-group input[type="password"] {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #f8bbd0;
-  border-radius: 8px;
-  background-color: #fff0f5;
-  font-size: 1rem;
-  transition: 0.3s;
-}
-
-.form-group input:focus {
-  border-color: #f06292;
-  outline: none;
-  background-color: #fff;
-}
-
-.btn {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #f06292;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
-}
-
-.btn:hover {
-  background-color: #ec407a;
-}
-.login-container h3{
-
-  color: #bfbfbf;
-}
-.signup-link {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #e91e63;
-}
-
-.signup-link a {
-  color: #d81b60;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.signup-link a:hover {
-  text-decoration: underline;
-}
 
     .snowflake {
   position: fixed;
@@ -117,24 +36,7 @@ body {
   z-index: -2;
   animation: fallAndSpin linear infinite;
 }
-.google{
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #28a745;
-  color: wheat;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
-}
-.google:hover{
-    background-color: #adbfff;
-    color:red;
-    
-}
+
 @keyframes fallAndSpin {
   0% {
     transform: translate(0, -10px) rotate(0deg);
@@ -159,27 +61,56 @@ body {
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="login-container">
-    <h3>Welcome to My Library️</h3>
-    <h2>Sign In </h2>
-    <form action="LoginController" method="post">
-      <div class="form-group">
-        <label for="username">Username or Email</label>
-        <input type="text" id="username" name="loginInfo" placeholder="Enter your waifu name or her email..." required>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="w-full max-w-sm bg-white p-8 rounded-lg shadow-xl transform transition-all duration-300 hover:scale-105">
+    <h2 class="text-3xl font-bold text-center text-pink-500 mb-6">Chào mừng trở lại</h2>
+    <p class="text-center text-gray-500 mb-6">Đăng nhập để tiếp tục khám phá thư viện.</p>
+
+    <c:if test="${not empty requestScope.ERROR}">
+        <div class="bg-red-100 border border-red-400 text-red-500 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">${requestScope.ERROR}</span>
+        </div>
+    </c:if>
+    <c:if test="${not empty requestScope.SUCCESS_MESSAGE}">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">${requestScope.SUCCESS_MESSAGE}</span>
+        </div>
+    </c:if>
+
+    <form action="MainController" method="post" class="space-y-4">
+      <div>
+        <label for="loginInfo" class="block text-sm font-medium text-gray-700">Tên đăng nhập hoặc Email</label>
+        <input type="text" id="loginInfo" name="loginInfo" placeholder="Nhập tên đăng nhập hoặc email của bạn" required
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500">
       </div>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Your secret..." required>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Mật khẩu</label>
+        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required
+               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500">
       </div>
-
-      <button type="submit" class="btn"> Log In </button>
-      <p class="signup-link">Don’t have an account? <a href="signup.jsp">Sign up here</a></p>
+      
+      <button type="submit" name="action" value="Login"
+              class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-all duration-300">
+        Đăng nhập
+      </button>
     </form>
-        <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/demoJDBC/Auth/loginGoogleHandler&response_type=code&client_id=726122654661-6177q2sm525sghfq1s04sqamih2dan04.apps.googleusercontent.com&approval_prompt=force&access_type=offline" class="google-btn">
-            <button class="google" style="width: 90%; padding: 10px;">Đăng nhập với Google</button>
-        </a>
-  </div>
+    
+    <div class="mt-6 text-center">
+      <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile&redirect_uri=http://localhost:8080/demoJDBC/Auth/loginGoogleHandler&response_type=code&client_id=726122654661-6177q2sm525sghfq1s04sqamih2dan04.apps.googleusercontent.com&approval_prompt=force&access_type=offline"
+         class="inline-flex items-center justify-center w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-300">
+        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">...</svg>
+        Đăng nhập với Google
+      </a>
+    </div>
+
+    <p class="mt-6 text-center text-sm text-gray-600">
+      Chưa có tài khoản?
+      <a href="signup.jsp" class="font-bold text-pink-500 hover:text-pink-600 hover:underline">
+        Đăng ký tại đây
+      </a>
+    </p>
     <script>
 function createSnowflake() {
   const snowflake = document.createElement("div");

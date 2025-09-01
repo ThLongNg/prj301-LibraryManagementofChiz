@@ -177,5 +177,25 @@ public class BookDAO {
         }
         return list;
     }
+       public boolean addBook(String title, String author, String isbn, String category, int publishedYear, int totalCopies, int availableCopies, String status) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO books (title, author, isbn, category, published_year, total_copies, available_copies, status) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (Connection cn = DBUtils.getConnection();
+             PreparedStatement pst = cn.prepareStatement(sql)) {
+            
+            pst.setNString(1, title); // Sử dụng setNString cho dữ liệu có dấu
+            pst.setNString(2, author);
+            pst.setNString(3, isbn);
+            pst.setNString(4, category);
+            pst.setInt(5, publishedYear);
+            pst.setInt(6, totalCopies);
+            pst.setInt(7, availableCopies);
+            pst.setNString(8, status);
+            
+            int rowsAffected = pst.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
 } 
 
