@@ -23,8 +23,8 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "LoginGoogleHandler", urlPatterns = {"/Auth/loginGoogleHandler"}) 
 public class loginGoogleHandler extends HttpServlet {
 
-    private static final String CLIENT_ID = "726122654661-6177q2sm525sghfq1s04sqamih2dan04.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "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";
+    private static final String CLIENT_ID = "";
+    private static final String CLIENT_SECRET = "";
     private static final String REDIRECT_URI = "http://localhost:8080/demoJDBC/Auth/loginGoogleHandler";
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
